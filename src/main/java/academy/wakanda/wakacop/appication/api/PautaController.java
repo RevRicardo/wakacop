@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pauta")
 @Log4j2
 public class PautaController implements PautaAPI {
     private final PautaService pautaService;
