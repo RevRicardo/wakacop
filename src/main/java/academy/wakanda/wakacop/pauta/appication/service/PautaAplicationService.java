@@ -1,7 +1,9 @@
-package academy.wakanda.wakacop.appication.service;
+package academy.wakanda.wakacop.pauta.appication.service;
 
-import academy.wakanda.wakacop.appication.api.NovaPautaRequest;
-import academy.wakanda.wakacop.appication.api.PautaCadastradaResponse;
+import academy.wakanda.wakacop.pauta.appication.api.NovaPautaRequest;
+import academy.wakanda.wakacop.pauta.appication.api.PautaCadastradaResponse;
+import academy.wakanda.wakacop.pauta.domain.Pauta;
+import jakarta.persistence.Entity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Log4j2
 public class PautaAplicationService implements PautaService {
+    private final PautaRepository pautaRepository;
+
     @Override
     public PautaCadastradaResponse cadastraPauta(NovaPautaRequest novaPauta) {
         log.info("[inicia] PautaCadastradaResponse --> cadastraPauta");
         log.info("[novaPauta] {}",novaPauta);
+        Pauta pauta = pautaRepository.salva(new Pauta(novaPauta));
         log.info("[finaliza] PautaCadastradaResponse --> cadastraPauta");
-        return null;
+        return new PautaCadastradaResponse(pauta);
     }
 }

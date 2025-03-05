@@ -1,10 +1,14 @@
-package academy.wakanda.wakacop.appication.api;
+package academy.wakanda.wakacop.pauta.appication.api;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
+@Getter
+@ToString
 public class NovaPautaRequest {
     @NotBlank
     private String titulo;
