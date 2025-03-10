@@ -30,6 +30,6 @@ public class PautaAplicationService implements PautaService {
         log.info("[inicia] PautaAplicationService - getPautaPorId");
         Pauta pautaPorId = pautaRepository.buscaPautaPorId(idPauta);
         log.info("[finaliza] PautaAplicationService - getPautaPorId");
-        return null;
+        return pautaPorId;
     }
 }
