@@ -12,9 +12,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -30,8 +29,8 @@ public class SessaoVotacao {
     private Integer tempoDuracao;
     @Enumerated(EnumType.STRING)
     private StatusSessaoVotacao status;
-    private LocalDateTime dataAbertura;
-    private LocalDateTime dataEncerramento;
+    private LocalDateTime momentoAbertura;
+    private LocalDateTime momentoEncerramento;
 
     @OneToMany(
             mappedBy = "sessaoVotacao",
@@ -39,13 +38,13 @@ public class SessaoVotacao {
             orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     @MapKey(name = "cpfAssociado")
-    private HashMap<String, VotoPauta> votos;
+    private Map<String, VotoPauta> votos;
 
     public SessaoVotacao(SessaoAberturaRequest sessaoAberturaRequest, Pauta pauta) {
         this.idPauta = pauta.getId();
         this.tempoDuracao = sessaoAberturaRequest.getTempoDuracao().orElse(1);
-        this.dataAbertura = LocalDateTime.now();
-        this.dataEncerramento = dataAbertura.plusMinutes(this.tempoDuracao);
+        this.momentoAbertura = LocalDateTime.now();
+        this.momentoEncerramento = momentoAbertura.plusMinutes(this.tempoDuracao);
         this.status = StatusSessaoVotacao.ABERTA;
         this.votos = new HashMap<>();
     }
@@ -67,7 +66,7 @@ public class SessaoVotacao {
 
     private void atualizaStatus() {
         if(this.status.equals(StatusSessaoVotacao.ABERTA)) {
-            if(LocalDateTime.now().isAfter(this.dataEncerramento)) {
+            if(LocalDateTime.now().isAfter(this.momentoEncerramento)) {
                 fechaSessao();
             }
         }

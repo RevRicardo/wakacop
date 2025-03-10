@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
 @RequiredArgsConstructor
 @Log4j2
@@ -18,5 +20,14 @@ public class SessaoVotacaoInfraRepository implements SessaoVotacaoRepository {
         sessaoVotacaoSpringDataSPARepository.save(sessaoVotacao);
         log.info("[finaliza] SessaoVotacaoInfraRepository  --> salva");
         return sessaoVotacao;
+    }
+
+    @Override
+    public SessaoVotacao buscaPorId(UUID idSessao) {
+        log.info("[inicia] SessaoVotacaoInfraRepository --> buscaPorId");
+        SessaoVotacao sesao = sessaoVotacaoSpringDataSPARepository.findById(idSessao)
+                .orElseThrow(() -> new RuntimeException("Sessão não encontrada!"));
+        log.info("[finaliza] SessaoVotacaoInfraRepository --> buscaPorId");
+        return sesao;
     }
 }
